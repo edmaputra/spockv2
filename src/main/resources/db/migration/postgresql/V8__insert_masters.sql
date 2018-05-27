@@ -1,0 +1,5 @@
+INSERT INTO JABATAN(ID, NAMA, LEVEL)
+  VALUES (1, 'pelaksana', 1);
+
+  INSERT INTO PEGAWAI(ID, NAMA)
+    VALUES (1, 'Rahmat Sholeh');
