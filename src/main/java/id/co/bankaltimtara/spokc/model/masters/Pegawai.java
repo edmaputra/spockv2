@@ -46,5 +46,9 @@ public class Pegawai {
     @JoinColumn(name = "KANTOR_ID")
     private KantorDivisi kantorDivisi;
 
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinTable(name = "PEGAWAI_USERNAME", joinColumns = @JoinColumn(name = "PEGAWAI_ID", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "USERNAME_ID", referencedColumnName = "ID"))
+    private List<Username> username;
+
 
 }

@@ -1,8 +1,9 @@
 package id.co.bankaltimtara.spokc.controller.master;
 
 import id.co.bankaltimtara.spokc.controller.Logs;
-import id.co.bankaltimtara.spokc.model.masters.Jabatan;
-import id.co.bankaltimtara.spokc.service.JabatanService;
+import id.co.bankaltimtara.spokc.model.masters.Username;
+import id.co.bankaltimtara.spokc.service.UsernameService;
+import id.co.bankaltimtara.spokc.service.WilayahService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,22 +18,22 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/a/jabatan")
-public class JabatanController {
+@RequestMapping("/a/u")
+public class UsernameController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private String clazz = this.getClass().getSimpleName();
 
     @Autowired
-    private JabatanService service;
+    private UsernameService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    ResponseEntity<?> dapatkanSemua(@RequestParam(value = "c", required = false) String c, HttpServletRequest request) {
+    ResponseEntity<?> dapatkanSemua(HttpServletRequest request) {
         try {
-            List<Jabatan>  list = (List<Jabatan>) service.dapatkan(c);
+            List<Username> list = (List<Username>) service.dapatkanSemua();
             if (!list.isEmpty() || list != null) {
                 logger.info(Logs.dapatkanSemua(request, clazz));
                 return new ResponseEntity<>(list, HttpStatus.OK);
@@ -51,10 +52,10 @@ public class JabatanController {
     public @ResponseBody
     ResponseEntity<?> dapatkan(@PathVariable Long id, HttpServletRequest request) {
         try {
-            Jabatan jabatan = service.dapatkan(id);
-            if (jabatan != null){
-                logger.info(Logs.dapatkan(request, clazz, jabatan));
-                return new ResponseEntity<>(jabatan, HttpStatus.OK);
+            Username username = service.dapatkan(id);
+            if (username != null){
+                logger.info(Logs.dapatkan(request, clazz, username));
+                return new ResponseEntity<>(username, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -67,28 +68,28 @@ public class JabatanController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<?> tambah(@Valid @RequestBody Jabatan jabatan, HttpServletRequest request) {
+    public ResponseEntity<?> tambah(@Valid @RequestBody Username username, HttpServletRequest request) {
         try {
-            service.tambah(jabatan);
-            logger.info(Logs.tambah(request, clazz, jabatan));
+            service.tambah(username);
+            logger.info(Logs.tambah(request, clazz, username));
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error(Logs.error(request, clazz, "CREATE", jabatan));
+            logger.error(Logs.error(request, clazz, "CREATE", username));
             return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
         }
     }
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<?> update(@Valid @RequestBody Jabatan jabatan, HttpServletRequest request){
+    public ResponseEntity<?> update(@Valid @RequestBody Username username, HttpServletRequest request){
         try {
-            service.update(jabatan);
-            logger.info(Logs.update(request, clazz, jabatan));
+            service.update(username);
+            logger.info(Logs.update(request, clazz, username));
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error(Logs.error(request, clazz, "UPDATE", jabatan));
+            logger.error(Logs.error(request, clazz, "UPDATE", username));
             return new ResponseEntity<>(HttpStatus.BAD_GATEWAY);
         }
     }

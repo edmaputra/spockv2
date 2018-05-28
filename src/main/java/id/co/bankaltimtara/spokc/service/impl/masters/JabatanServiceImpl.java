@@ -1,10 +1,14 @@
 package id.co.bankaltimtara.spokc.service.impl.masters;
 
 import id.co.bankaltimtara.spokc.model.masters.Jabatan;
+import id.co.bankaltimtara.spokc.predicate.SearchCriteria;
+import id.co.bankaltimtara.spokc.predicate.masters.JabatanSpecification;
 import id.co.bankaltimtara.spokc.repository.masters.JabatanRepository;
 import id.co.bankaltimtara.spokc.service.JabatanService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +22,17 @@ public class JabatanServiceImpl implements JabatanService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Jabatan> dapatkanSemua() {
-        return jabatanRepository.findAll();
+    public List<Jabatan> dapatkanSemua() {return jabatanRepository.findAll(); }
+
+    @Override
+    public List<Jabatan> dapatkan(String q) {
+        if (StringUtils.isBlank(q)) {
+            return jabatanRepository.findAll();
+        } else {
+            JabatanSpecification spec1 = new JabatanSpecification(new SearchCriteria("nama", ":", q));
+            List<Jabatan> results = jabatanRepository.findAll(Specifications.where(spec1));
+            return results;
+        }
     }
 
     @Override
