@@ -1,14 +1,17 @@
 package id.co.bankaltimtara.spokc.service.impl.masters;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
 import id.co.bankaltimtara.spokc.model.masters.Jabatan;
-import id.co.bankaltimtara.spokc.predicate.SearchCriteria;
-import id.co.bankaltimtara.spokc.predicate.masters.JabatanSpecification;
+import id.co.bankaltimtara.spokc.query.masters.JabatanQueryBuilder;
 import id.co.bankaltimtara.spokc.repository.masters.JabatanRepository;
 import id.co.bankaltimtara.spokc.service.JabatanService;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specifications;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +19,8 @@ import java.util.List;
 
 @Service
 public class JabatanServiceImpl implements JabatanService {
+
+    private static final int PAGE_SIZE = 30;
 
     @Autowired
     private JabatanRepository jabatanRepository;
@@ -25,14 +30,29 @@ public class JabatanServiceImpl implements JabatanService {
     public List<Jabatan> dapatkanSemua() {return jabatanRepository.findAll(); }
 
     @Override
-    public List<Jabatan> dapatkan(String q) {
-        if (StringUtils.isBlank(q)) {
-            return jabatanRepository.findAll();
-        } else {
-            JabatanSpecification spec1 = new JabatanSpecification(new SearchCriteria("nama", ":", q));
-            List<Jabatan> results = jabatanRepository.findAll(Specifications.where(spec1));
-            return results;
+    @Transactional(readOnly = true)
+    public Page<Jabatan> dapatkan(Integer halaman, String cari) {
+        if (halaman == null) {
+            halaman = 1;
         }
+        PageRequest pageRequest = new PageRequest(halaman - 1, PAGE_SIZE, Sort.Direction.ASC, "nama");
+        if (StringUtils.isBlank(cari)){
+            return jabatanRepository.findAll(pageRequest);
+        } else {
+            JabatanQueryBuilder queryBuilder = new JabatanQueryBuilder();
+            queryBuilder.cari(cari);
+            if (StringUtils.isNumeric(cari)) {
+                queryBuilder.level(new Integer(cari));
+            }
+            BooleanExpression expression = queryBuilder.getResult();
+            return jabatanRepository.findAll(expression, pageRequest);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Integer count(Long id) {
+        return jabatanRepository.countById(id);
     }
 
     @Override

@@ -35,9 +35,9 @@ public class KantorDivisiController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    ResponseEntity<?> dapatkanSemua(HttpServletRequest request) {
+    ResponseEntity<?> dapatkanSemua(@RequestParam(value = "c", required = false) String c, HttpServletRequest request) {
         try {
-            List<KantorDivisi> list = (List<KantorDivisi>) service.dapatkanSemua();
+            List<KantorDivisi> list = (List<KantorDivisi>) service.dapatkan(c);
             if (!list.isEmpty() || list != null) {
                 logger.info(Logs.dapatkanSemua(request, clazz));
                 return new ResponseEntity<>(list, HttpStatus.OK);

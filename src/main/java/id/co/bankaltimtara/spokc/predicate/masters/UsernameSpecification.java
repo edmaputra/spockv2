@@ -1,6 +1,7 @@
 package id.co.bankaltimtara.spokc.predicate.masters;
 
 import id.co.bankaltimtara.spokc.model.masters.Jabatan;
+import id.co.bankaltimtara.spokc.model.masters.Username;
 import id.co.bankaltimtara.spokc.predicate.SearchCriteria;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -9,16 +10,16 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-public class JabatanSpecification implements Specification<Jabatan> {
+public class UsernameSpecification implements Specification<Username> {
 
     private SearchCriteria criteria;
 
-    public JabatanSpecification(SearchCriteria criteria){
+    public UsernameSpecification(SearchCriteria criteria){
         this.criteria = criteria;
     }
 
     @Override
-    public Predicate toPredicate(Root<Jabatan> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+    public Predicate toPredicate(Root<Username> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         if (criteria.getOperation().equalsIgnoreCase(">")) {
             return builder.greaterThanOrEqualTo(
                     root.<String> get(criteria.getKey()), criteria.getValue().toString());

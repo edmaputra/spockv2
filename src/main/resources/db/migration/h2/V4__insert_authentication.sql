@@ -1,4 +1,4 @@
 INSERT INTO OAUTH_CLIENT_DETAILS(CLIENT_ID, RESOURCE_IDS, CLIENT_SECRET, SCOPE, AUTHORIZED_GRANT_TYPES, AUTHORITIES, ACCESS_TOKEN_VALIDITY, REFRESH_TOKEN_VALIDITY)
-	VALUES ('SPOKC-WEBCLIENT', 'SPOKC-API',
-    	/*spring-security-oauth2-read-client-password1234*/'$2a$04$WGq2P9egiOYoOFemBRfsiO9qTcyJtNRnPKNBl5tokP7IP.eZn93km',
-    	'read,write', 'password,authorization_code,refresh_token,implicit', 'USER', 10800, 2592000);
+	VALUES
+	('SPOKC-WEBCLIENT', 'SPOKC-API', /*spring-security-oauth2-read-client-password1234*/'$2a$04$WGq2P9egiOYoOFemBRfsiO9qTcyJtNRnPKNBl5tokP7IP.eZn93km', 'read,write', 'password,authorization_code,refresh_token,implicit', 'USER', 10800, 2592000),
+    ('SPOKC-MOBILE', 'SPOKC-API', /*spring-security-oauth2-read-client-password1234*/'$2a$04$WGq2P9egiOYoOFemBRfsiO9qTcyJtNRnPKNBl5tokP7IP.eZn93km', 'read,write', 'password,authorization_code,refresh_token,implicit', 'USER', 10800, 2592000);

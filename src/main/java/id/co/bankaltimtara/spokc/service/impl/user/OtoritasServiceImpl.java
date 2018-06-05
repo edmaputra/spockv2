@@ -5,6 +5,7 @@ import id.co.bankaltimtara.spokc.repository.pengguna.OtoritasRepository;
 import id.co.bankaltimtara.spokc.service.OtoritasService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,5 +53,15 @@ public class OtoritasServiceImpl implements OtoritasService {
     @Transactional
     public void hapus(Otoritas otoritas) {
         otoritasRepository.delete(otoritas);
+    }
+
+    @Override
+    public Integer count(Long aLong) {
+        return otoritasRepository.countById(aLong);
+    }
+
+    @Override
+    public Page<Otoritas> dapatkan(Integer halaman, String cari) {
+        return null;
     }
 }

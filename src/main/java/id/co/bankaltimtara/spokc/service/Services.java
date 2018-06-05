@@ -1,5 +1,7 @@
 package id.co.bankaltimtara.spokc.service;
 
+import org.springframework.data.domain.Page;
+
 import java.io.Serializable;
 
 public interface Services<T, ID extends Serializable>{
@@ -15,5 +17,11 @@ public interface Services<T, ID extends Serializable>{
     void hapus(ID id);
 
     void hapus(T t);
+
+    Integer count(ID id);
+
+    Page<T> dapatkan(Integer halaman, String cari);
+
+
 
 }

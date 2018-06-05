@@ -31,9 +31,9 @@ public class WilayahController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    ResponseEntity<?> dapatkanSemua(HttpServletRequest request) {
+    ResponseEntity<?> dapatkanSemua(@RequestParam(value = "c", required = false) String c, HttpServletRequest request) {
         try {
-            List<Wilayah> list = (List<Wilayah>) service.dapatkanSemua();
+            List<Wilayah> list = (List<Wilayah>) service.dapatkan(c);
             if (!list.isEmpty() || list != null) {
                 logger.info(Logs.dapatkanSemua(request, clazz));
                 return new ResponseEntity<>(list, HttpStatus.OK);
