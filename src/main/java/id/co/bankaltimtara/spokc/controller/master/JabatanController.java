@@ -40,7 +40,7 @@ public class JabatanController {
             @RequestParam(value = "h", required = false, defaultValue = "1") Integer h,
             HttpServletRequest request) {
         try {
-            Page<Jabatan>  page = (Page<Jabatan>) service.dapatkan(h, c);
+            Page<Jabatan>  page = service.dapatkan(h, c);
             if (page != null) {
                 logger.info(Logs.dapatkanSemua(request, clazz));
                 return new ResponseEntity<>(page, HttpStatus.OK);

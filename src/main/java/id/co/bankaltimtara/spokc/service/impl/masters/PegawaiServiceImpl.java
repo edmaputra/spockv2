@@ -50,22 +50,6 @@ public class PegawaiServiceImpl implements PegawaiService {
     }
 
     @Override
-    public Page<Pegawai> dapakan(Integer halaman, String cari) {
-        if (halaman == null) {
-            halaman = 1;
-        }
-        PageRequest pageRequest = new PageRequest(halaman - 1, PAGE_SIZE, Sort.Direction.ASC, "nama");
-        if (StringUtils.isBlank(cari)){
-            return pegawaiRepository.findAll(pageRequest);
-        } else {
-            PegawaiQueryBuilder queryBuilder = new PegawaiQueryBuilder();
-            queryBuilder.cari(cari);
-            BooleanExpression expression = queryBuilder.getResult();
-            return pegawaiRepository.findAll(expression, pageRequest);
-        }
-    }
-
-    @Override
     @Transactional
     public void tambah(Pegawai pegawai) {
         pegawaiRepository.save(pegawai);
@@ -89,5 +73,22 @@ public class PegawaiServiceImpl implements PegawaiService {
     @Transactional
     public void hapus(Pegawai pegawai) {
         pegawaiRepository.delete(pegawai);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Pegawai> dapatkan(Integer halaman, String cari) {
+        if (halaman == null) {
+            halaman = 1;
+        }
+        PageRequest pageRequest = new PageRequest(halaman - 1, PAGE_SIZE, Sort.Direction.ASC, "nama");
+        if (StringUtils.isBlank(cari)){
+            return pegawaiRepository.findAll(pageRequest);
+        } else {
+            PegawaiQueryBuilder queryBuilder = new PegawaiQueryBuilder();
+            queryBuilder.cari(cari);
+            BooleanExpression expression = queryBuilder.getResult();
+            return pegawaiRepository.findAll(expression, pageRequest);
+        }
     }
 }
